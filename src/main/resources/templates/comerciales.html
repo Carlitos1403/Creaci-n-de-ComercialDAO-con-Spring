@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Comerciales | Ventas</title>
+</head>
+<body>
+	<main>
+		<h1>Comerciales</h1>
+		<p th:if="${mensaje}" th:text="${mensaje}" role="status"></p>
+		<p th:if="${error}" th:text="${error}" role="alert"></p>
+		<p><a th:href="@{/comercial/crear}">Crear comercial</a></p>
+
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Primer apellido</th>
+					<th>Segundo apellido</th>
+					<th>Comision</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="comercial : ${comerciales}">
+					<td th:text="${comercial.id}"></td>
+					<td th:text="${comercial.nombre}"></td>
+					<td th:text="${comercial.apellido1}"></td>
+					<td th:text="${comercial.apellido2}"></td>
+					<td th:text="${comercial.comision != null ? comercial.comision : '-'}"></td>
+					<td>
+						<a th:href="@{/comercial/editar/{id}(id=${comercial.id})}">Editar</a>
+						<form th:action="@{/comercial/eliminar/{id}(id=${comercial.id})}" method="post">
+							<button type="submit">Eliminar</button>
+						</form>
+					</td>
+				</tr>
+				<tr th:if="${#lists.isEmpty(comerciales)}">
+					<td colspan="6">No hay comerciales registrados.</td>
+				</tr>
+			</tbody>
+		</table>
+	</main>
+</body>
+</html>
